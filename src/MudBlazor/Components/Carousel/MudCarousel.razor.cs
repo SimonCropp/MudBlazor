@@ -209,10 +209,10 @@ namespace MudBlazor
         public RenderFragment<bool>? BulletTemplate { get; set; }
 
         /// <summary>
-        /// Allows swipe gestures for touch devices.
+        /// Allows swipe gestures to change the current item.
         /// </summary>
         /// <remarks>
-        /// Defaults to <c>true</c>.  When <c>true</c>, swipe gestures on touch devices can be used to change the current <see cref="MudCarouselItem"/>.
+        /// Defaults to <c>true</c>.  When <c>true</c>, a horizontal swipe of at least 100 pixels by touch, pen, or mouse drag changes the current <see cref="MudCarouselItem"/>.
         /// </remarks>
         [Category(CategoryTypes.Carousel.Behavior)]
         [Parameter]
