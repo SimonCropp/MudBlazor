@@ -164,7 +164,16 @@
         <DocsPageSection>
             <SectionHeader Title="Custom Styling">
                 <Description>
-                    You can apply custom classes to the dialog's title, content, actions, or the dialog itself for advanced styling.
+                    <MudText>
+                        Use <CodeInline>Class</CodeInline> and <CodeInline>Style</CodeInline> on <CodeInline>MudDialog</CodeInline> to style the dialog itself, and <CodeInline>TitleClass</CodeInline>, <CodeInline>ContentClass</CodeInline> and <CodeInline>ActionsClass</CodeInline> to style its title, content and actions.
+                        <CodeInline>DialogOptions</CodeInline> has no class or style for the dialog itself; its <CodeInline>BackgroundClass</CodeInline> styles the overlay behind it.
+                    </MudText>
+                    <MudAlert Class="my-3" Severity="Severity.Info">
+                        CSS isolation (<CodeInline>.razor.css</CodeInline>) doesn't reach these elements, so define the classes in global CSS or in a <CodeInline>&lt;style&gt;</CodeInline> block, as this example does.
+                        A dialog is rendered by <CodeInline>MudDialogProvider</CodeInline>, usually in your layout, not inside the component that opened it, and MudBlazor renders the dialog's own elements, so neither the caller's nor the dialog component's scoped CSS applies to them, even with <CodeInline>::deep</CodeInline>.
+                        Your dialog component's scoped CSS still applies to the HTML elements it writes inside <CodeInline>TitleContent</CodeInline>, <CodeInline>DialogContent</CodeInline> and <CodeInline>DialogActions</CodeInline>, and <CodeInline>::deep</CodeInline> from those elements reaches the MudBlazor components nested in them.
+                        See <MudLink Href="/customization/overview#css-isolation-limitation">CSS Isolation Limitation</MudLink>.
+                    </MudAlert>
                 </Description>
             </SectionHeader>
             <SectionContent Codes="@(new[] {new CodeFile("Page.razor", nameof(DialogStylingExample)), new CodeFile("Dialog.razor", nameof(DialogStylingExample_Dialog))})">

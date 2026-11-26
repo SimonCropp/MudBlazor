@@ -91,6 +91,10 @@
                         To style MudBlazor components, use the <CodeInline>Class</CodeInline> and <CodeInline>Style</CodeInline> parameters, global CSS, or a custom <CodeInline>MudTheme</CodeInline>.
                         If you must use CSS isolation, wrap the component in a standard HTML element and use the <CodeInline>::deep</CodeInline> pseudo-selector.
                     </MudText>
+                    <MudText Class="mt-3">
+                        Dialogs, inline ones included, are rendered by <CodeInline>MudDialogProvider</CodeInline>, not inside the component that opens them, so a wrapper there can't reach them with <CodeInline>::deep</CodeInline>.
+                        Style the dialog with the classes on <CodeInline>MudDialog</CodeInline> and global CSS, as shown in <MudLink Href="/components/dialog#custom-styling">Dialog Custom Styling</MudLink>.
+                    </MudText>
                 </Description>
             </SectionHeader>
         </DocsPageSection>
