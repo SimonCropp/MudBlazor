@@ -1,0 +1,32 @@
+﻿@namespace MudBlazor.Docs.Examples
+@using System.Globalization
+
+<MudNumericField @bind-Value="_taxRate"
+                 Converter="@_percentConverter"
+                 Culture="@_culture"
+                 Step="0.01m"
+                 Label="Tax rate"
+                 HelperText="@($"Bound value: {_taxRate}")"
+                 Variant="Variant.Outlined" />
+
+@code {
+    private static readonly CultureInfo _culture = CultureInfo.GetCultureInfo("en-US");
+
+    private readonly IConverter<decimal, string> _percentConverter = Conversions.From(
+        (decimal value) => value.ToString("P2", _culture),
+        ParsePercent);
+
+    private decimal _taxRate = 0.075m;
+
+    private static decimal ParsePercent(string text)
+    {
+        // The default key filter blocks typing the percent sign, so accept the number with or without it.
+        var number = text?.Replace(_culture.NumberFormat.PercentSymbol, string.Empty).Trim();
+        if (string.IsNullOrEmpty(number))
+        {
+            return 0m;
+        }
+
+        return decimal.Parse(number, NumberStyles.Number, _culture) / 100m;
+    }
+}

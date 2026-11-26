@@ -372,11 +372,19 @@ namespace MudBlazor
         /// <summary>
         /// Increases the current value by <see cref="Step"/>.
         /// </summary>
+        /// <remarks>
+        /// The up spin button and the Up arrow key call this method.
+        /// The new value is applied right away, without waiting for <see cref="MudDebouncedInput{T}.DebounceInterval"/>, so <see cref="MudDebouncedInput{T}.OnDebounceIntervalElapsed"/> is not raised.
+        /// </remarks>
         public Task Increment() => Change(factor: 1);
 
         /// <summary>
         /// Decreases the current value by <see cref="Step"/>.
         /// </summary>
+        /// <remarks>
+        /// The down spin button and the Down arrow key call this method.
+        /// The new value is applied right away, without waiting for <see cref="MudDebouncedInput{T}.DebounceInterval"/>, so <see cref="MudDebouncedInput{T}.OnDebounceIntervalElapsed"/> is not raised.
+        /// </remarks>
         public Task Decrement() => Change(factor: -1);
 
         /// <summary>
@@ -539,10 +547,15 @@ namespace MudBlazor
         public override InputMode InputMode { get; set; } = InputMode.numeric;
 
         /// <summary>
-        /// The regular expression used to constrain values.
+        /// The regular expression that limits which characters can be typed.
         /// </summary>
         /// <remarks>
-        /// Defaults to <c>null</c>, which will show a numerical keyboard on Safari.  Must be a valid JavaScript regular expression.  To allow only numbers (with no signs or commas), you can use <c>[0-9.]</c>.
+        /// Defaults to <c>null</c>, which allows digits, <c>,</c>, <c>.</c> and <c>-</c>.
+        /// Each typed character is checked on its own, so use an expression that matches one allowed character, such as <c>[0-9.]</c> to allow only digits and a decimal point.
+        /// Text pasted into the field is not filtered.
+        /// When set, it is also rendered as the HTML <c>pattern</c> attribute, with a trailing <c>*</c> unless it already ends with a quantifier or <c>$</c>, and the browser uses it for its own constraint validation.
+        /// Setting it keeps the <see cref="MudFormComponent{T, U}.Culture"/> instead of switching to <see cref="CultureInfo.InvariantCulture"/>.
+        /// Must be a valid JavaScript regular expression.
         /// </remarks>
         [Parameter]
         public override string? Pattern { get; set; } = null;

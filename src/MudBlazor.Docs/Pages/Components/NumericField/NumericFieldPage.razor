@@ -80,7 +80,9 @@
                             By default, numeric fields update the bound value on Enter or when focus is lost. Set <CodeInline>Immediate="true"</CodeInline> to update values as the user types.
                             You can also use <CodeInline>DebounceInterval</CodeInline> to delay updates until the user stops typing, preventing excessive updates during input. The debounced example updates 500ms after typing stops.
                             <MudAlert Severity="Severity.Warning" Dense="true" Class="mt-3">
-                                <strong>Note:</strong> Arrow key interactions are not debounced for immediate responsiveness.
+                                <strong>Note:</strong> Only changes to the text are debounced.
+                                The spin buttons, the Up and Down arrow keys, and the <CodeInline>Increment()</CodeInline> and <CodeInline>Decrement()</CodeInline> methods change the value right away, so they raise <CodeInline>ValueChanged</CodeInline> but not <CodeInline>OnDebounceIntervalElapsed</CodeInline>.
+                                To react to every value change, handle <CodeInline>ValueChanged</CodeInline> instead, or use <CodeInline>@("@bind-Value:after")</CodeInline> alongside <CodeInline>@("@bind-Value")</CodeInline>.
                             </MudAlert>
                         </Description>
                     </SectionHeader>
@@ -105,6 +107,22 @@
                 <strong>For Floating Point Values:</strong> When using string literals for <CodeInline>Min</CodeInline>, <CodeInline>Max</CodeInline> or <CodeInline>Step</CodeInline>, 
                 add a decimal point (e.g., <CodeInline>0.0</CodeInline>) or suffix (e.g., <CodeInline>0.5M</CodeInline> for decimal) to avoid compilation errors.
             </MudAlert>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Percentages">
+                <Description>
+                    <CodeInline>Format</CodeInline> only changes how the value is displayed.
+                    Typed text is parsed back with the field's <CodeInline>Culture</CodeInline>, which accepts that culture's currency symbol and group separators, so currency formats such as <CodeInline>C2</CodeInline> stay editable.
+                    The parser does not accept a percent sign and does not divide by 100, so percent formats such as <CodeInline>P2</CodeInline> are not editable: changing <CodeInline>7.50%</CodeInline> shows a "Not a valid number" error, and typing <CodeInline>7.5</CodeInline> sets the value to <CodeInline>7.5</CodeInline>, displayed as <CodeInline>750.00%</CodeInline>.
+                    To edit a fraction such as <CodeInline>0.075</CodeInline> as a percentage, set <CodeInline>Converter</CodeInline> to a <MudLink Href="/features/converters#custom-binding-converters">custom converter</MudLink> that formats the value as a percentage and divides the typed number by 100.
+                    Set <CodeInline>Culture</CodeInline> to the culture the converter uses, so the field reformats the text when the user presses Enter, as it does with <CodeInline>Format</CodeInline>.
+                    Set <CodeInline>Step</CodeInline> to <CodeInline>0.01</CodeInline> so the spin buttons and arrow keys change the value by one percentage point.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="@nameof(NumericFieldPercentExample)" ShowCode="false">
+                <NumericFieldPercentExample/>
+            </SectionContent>
         </DocsPageSection>
 
     </DocsPageContent>
